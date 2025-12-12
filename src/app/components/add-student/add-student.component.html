@@ -1,0 +1,58 @@
+<div class="container">
+    <h2>Add New Student</h2>
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+
+        <!-- Name -->
+        <div class="form-group">
+            <label>Name (Min length 5)*</label>
+            <input type="text" formControlName="name" class="form-control"
+                [class.is-invalid]="studentForm.get('name')?.invalid && studentForm.get('name')?.touched">
+            <div *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" class="error-msg">
+                Name is required and must be at least 5 characters.
+            </div>
+        </div>
+
+        <!-- Class -->
+        <div class="form-group">
+            <label>Class*</label>
+            <select formControlName="class" class="form-control">
+                <option value="" disabled>Select Class</option>
+                <option *ngFor="let cls of classes" [value]="cls">Class {{ cls }}</option>
+            </select>
+            <span class="info-msg" *ngIf="classControl?.value">{{ getClassMessage() }}</span>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+            <label>Gender*</label>
+            <div class="radio-group">
+                <label><input type="radio" formControlName="gender" value="Male"> Male</label>
+                <label><input type="radio" formControlName="gender" value="Female"> Female</label>
+            </div>
+        </div>
+
+        <!-- Has Hobby -->
+        <div class="form-group checkbox-group">
+            <label>
+                <input type="checkbox" formControlName="hasHobby"> Has Hobby?
+            </label>
+        </div>
+
+        <!-- Hobby Value -->
+        <div class="form-group" *ngIf="showHobbyInput">
+            <label>Hobby</label>
+            <input type="text" formControlName="hobby" class="form-control">
+        </div>
+
+        <!-- Favorite Subject -->
+        <div class="form-group">
+            <label>Favorite Subject</label>
+            <select formControlName="favoriteSubject" class="form-control">
+                <option value="">Select Subject</option>
+                <option *ngFor="let sub of subjects" [value]="sub">{{ sub }}</option>
+            </select>
+        </div>
+
+        <button type="submit" [disabled]="studentForm.invalid">Save</button>
+    </form>
+</div>
